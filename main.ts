@@ -3,8 +3,10 @@ namespace SpriteKind {
     export const Zombie_2 = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Zombie_1, SpriteKind.Player, function (sprite3, otherSprite3) {
-    Healthbarsurvivor.value += -10
-    pause(500)
+    sprites.destroy(Zombie)
+    sprites.destroy(projectile)
+    Restart_monstre = 1
+    info.changeScoreBy(1)
 })
 info.onCountdownEnd(function () {
     effects.clouds.startScreenEffect()
@@ -46,7 +48,7 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Zombie_2, function (sprite22
     sprites.destroy(zombie1)
     sprites.destroy(projectile)
     restart_zombi_2 = 1
-    info.changeScoreBy(1)
+    info.changeScoreBy(2)
 })
 info.onScore(50, function () {
     effects.confetti.startScreenEffect()
@@ -56,9 +58,10 @@ info.onScore(50, function () {
 })
 let restart_zombi_2 = 0
 let zombie1: Sprite = null
+let Healthbarzombie: StatusBarSprite = null
 let Restart_monstre = 0
 let projectile: Sprite = null
-let Healthbarzombie: StatusBarSprite = null
+let Zombie: Sprite = null
 let Healthbarsurvivor: StatusBarSprite = null
 let Survivant: Sprite = null
 info.setScore(0)
@@ -91,15 +94,15 @@ Survivant = sprites.create(img`
     .........................
     `, SpriteKind.Player)
 controller.moveSprite(Survivant)
+scene.cameraFollowSprite(Survivant)
 Healthbarsurvivor = statusbars.create(20, 4, StatusBarKind.Health)
 Healthbarsurvivor.value = 100
 Healthbarsurvivor.attachToSprite(Survivant)
 Healthbarsurvivor.setColor(7, 2)
 Healthbarsurvivor.setLabel("HP")
-scene.cameraFollowSprite(Survivant)
 game.showLongText("VAGUE 1", DialogLayout.Full)
 pause(5000)
-let Zombie = sprites.create(img`
+Zombie = sprites.create(img`
     . . . . c c c c c c . . . . . . 
     . . . c 6 7 7 7 7 6 c . . . . . 
     . . c 7 7 7 7 7 7 7 7 c . . . . 
@@ -117,14 +120,8 @@ let Zombie = sprites.create(img`
     . f 6 1 1 1 1 1 1 6 6 6 f . . . 
     . . c c c c c c c c c f . . . . 
     `, SpriteKind.Zombie_1)
-Zombie.follow(Survivant, 35)
+Zombie.follow(Survivant, 40)
 info.startCountdown(180)
-Healthbarzombie = statusbars.create(20, 4, StatusBarKind.Health)
-Healthbarzombie.attachToSprite(Zombie)
-Healthbarzombie.max = 20
-Healthbarzombie.value = 20
-Healthbarzombie.setColor(2, 7)
-Healthbarzombie.setLabel("INFECTION", 2)
 forever(function () {
     if (info.score() == 10) {
         if (Restart_monstre == 1) {
