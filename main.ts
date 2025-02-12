@@ -1,20 +1,12 @@
 namespace SpriteKind {
-    export const Zombie_1 = SpriteKind.create()
-    export const Zombie_2 = SpriteKind.create()
+    export const ZOMBIE$ = SpriteKind.create()
 }
-sprites.onOverlap(SpriteKind.Zombie_1, SpriteKind.Player, function (sprite3, otherSprite3) {
-	
-})
 info.onCountdownEnd(function () {
     effects.clouds.startScreenEffect()
     game.setGameOverMessage(false, "MORT")
     effects.clouds.endScreenEffect()
 })
-sprites.onOverlap(SpriteKind.Zombie_2, SpriteKind.Player, function (sprite, otherSprite) {
-	
-})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    let Survivant: Sprite = null
     projectile = sprites.createProjectileFromSprite(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -36,10 +28,18 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     music.play(music.createSoundEffect(WaveShape.Square, 1600, 1, 255, 0, 300, SoundExpressionEffect.None, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
     pause(1000)
 })
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Zombie_1, function (sprite2, otherSprite2) {
-	
+sprites.onOverlap(0, SpriteKind.Player, function (sprite, otherSprite) {
+    sprites.destroy(projectile)
+    Healthbarsurvivor.value += -10
+    pause(500)
 })
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Zombie_2, function (sprite22, otherSprite22) {
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.ZOMBIE$, function (sprite22, otherSprite22) {
+    sprites.destroy(zombie1)
+    sprites.destroy(projectile)
+    restart_zombi_2 = 1
+    info.changeScoreBy(2)
+})
+sprites.onOverlap(SpriteKind.Projectile, 0, function (sprite2, otherSprite2) {
 	
 })
 info.onScore(50, function () {
@@ -48,7 +48,12 @@ info.onScore(50, function () {
     game.setGameOverMessage(true, "ZOMBIE ÉRADIQUÉ")
     game.gameOver(true)
 })
+let Restart_monstre = 0
+let restart_zombi_2 = 0
+let zombie1 = 0
 let projectile: Sprite = null
+let Healthbarsurvivor: StatusBarSprite = null
+let Survivant: Sprite = null
 info.setScore(0)
 for (let index = 0; index < 6; index++) {
     scene.setBackgroundImage(img`
@@ -421,8 +426,39 @@ for (let index = 0; index < 6; index++) {
         `)
     pause(200)
 }
+Survivant = sprites.create(assets.image`myImage`, SpriteKind.Player)
+controller.moveSprite(Survivant)
+scene.cameraFollowSprite(Survivant)
+Healthbarsurvivor = statusbars.create(20, 4, StatusBarKind.Health)
+Healthbarsurvivor.value = 100
+Healthbarsurvivor.attachToSprite(Survivant)
+Healthbarsurvivor.setColor(7, 2)
+Healthbarsurvivor.setLabel("HP")
+game.showLongText("VAGUE 1", DialogLayout.Full)
+pause(5000)
+let Zombie = 0
+Zombie.follow(Survivant, 40)
+info.startCountdown(180)
 forever(function () {
-	
+    if (info.score() == 10) {
+        if (Restart_monstre == 1) {
+            game.showLongText("VAGUE 2", DialogLayout.Bottom)
+            Restart_monstre = 0
+            Zombie = 0
+            Zombie.follow(Survivant, 35)
+            pause(1000)
+            zombie1 = 0
+            zombie1.follow(Survivant, 35)
+        }
+    } else if (Restart_monstre == 1) {
+        Restart_monstre = 0
+        Zombie = 0
+        Zombie.follow(Survivant, 35)
+    } else if (restart_zombi_2 == 1) {
+        restart_zombi_2 = 0
+        zombie1 = 0
+        zombie1.follow(Survivant, 35)
+    }
 })
 forever(function () {
 	
