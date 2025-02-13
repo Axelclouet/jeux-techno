@@ -691,7 +691,7 @@ scene.setBackgroundImage(img`
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
     `)
-game.showLongText("Inconnu :\"Bienvenue dans zombie wars, ton but est de tuer un maximum de zombie et de combatre l'apocalypse ! Bonne chance\" ", DialogLayout.Bottom)
+game.showLongText("Inconnu :\"Bienvenue dans zombie war, ton but est de tuer un maximum de zombie et de combatre l'apocalypse ! Bonne chance\" ", DialogLayout.Bottom)
 scene.setBackgroundImage(img`
     ................................................................................................................................................................
     ................................................................................................................................................................
@@ -814,7 +814,7 @@ scene.setBackgroundImage(img`
     ................................................................................................................................................................
     ................................................................................................................................................................
     `)
-tiles.setCurrentTilemap(tilemap`level1`)
+tiles.setCurrentTilemap(tilemap`level18`)
 loading = 0
 // AAAAAAAAAAAAA
 Survivant = sprites.create(assets.image`myImage`, SpriteKind.Player)
