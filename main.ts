@@ -7,6 +7,8 @@ sprites.onOverlap(SpriteKind.zombie, SpriteKind.Player, function (sprite, otherS
     pause(2000)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.zombie, function (sprite22, otherSprite22) {
+    Zombie_X = Zombie.x
+    Zombie_Y = Zombie.x
     sprites.destroy(Zombie)
     sprites.destroy(projectile)
     if (randint(0, 5) == 5) {
@@ -93,11 +95,12 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
 let restart_zombi_2 = 0
 let zombie1: Sprite = null
 let Restart_monstre = 0
-let Zombie_Y = 0
 let Orbe1: Sprite = null
 let projectile: Sprite = null
-let Survivant_Y = 0
+let Zombie_Y = 0
 let Zombie_X = 0
+let Survivant_Y = 0
+let Survivant_X = 0
 let Zombie: Sprite = null
 let Survivant: Sprite = null
 let loading = 0
@@ -872,16 +875,14 @@ Zombie = sprites.create(img`
     . . . 2 2 . . f f . . . 
     `, SpriteKind.zombie)
 Zombie.follow(Survivant, 40)
-Zombie.setPosition(Zombie_X + 15, Survivant_Y + 15)
+Zombie.setPosition(Survivant_X + 15, Survivant_Y + 15)
 info.startCountdown(180)
 forever(function () {
 	
 })
 forever(function () {
-    Zombie_X = Survivant.x
+    Survivant_X = Survivant.x
     Survivant_Y = Survivant.y
-    Zombie_X = Zombie.x
-    Zombie_Y = Zombie.x
     if (info.score() == 10) {
         if (Restart_monstre == 1) {
             game.showLongText("VAGUE 2", DialogLayout.Bottom)
@@ -905,7 +906,7 @@ forever(function () {
                 . . . 2 2 . . f f . . . 
                 `, SpriteKind.zombie)
             Zombie.follow(Survivant, 35)
-            Zombie.setPosition(Zombie_X + 15, Survivant_Y + 15)
+            Zombie.setPosition(Survivant_X + 15, Survivant_Y + 15)
             pause(1000)
             zombie1 = sprites.create(img`
                 . . . . f f f f . . . . 
@@ -926,7 +927,7 @@ forever(function () {
                 . . . 2 2 . . f f . . . 
                 `, SpriteKind.ZOMBIE$)
             zombie1.follow(Survivant, 35)
-            zombie1.setPosition(Zombie_X + 15, Survivant_Y + 15)
+            zombie1.setPosition(Survivant_X + 15, Survivant_Y + 15)
         }
     } else if (Restart_monstre == 1) {
         Restart_monstre = 0
@@ -949,7 +950,7 @@ forever(function () {
             . . . 2 2 . . f f . . . 
             `, SpriteKind.zombie)
         Zombie.follow(Survivant, 35)
-        Zombie.setPosition(Zombie_X + 15, Survivant_Y + 15)
+        Zombie.setPosition(Survivant_X + 15, Survivant_Y + 15)
     } else if (restart_zombi_2 == 1) {
         restart_zombi_2 = 0
         zombie1 = sprites.create(img`
@@ -971,7 +972,7 @@ forever(function () {
             . . . 2 2 . . f f . . . 
             `, SpriteKind.ZOMBIE$)
         zombie1.follow(Survivant, 35)
-        zombie1.setPosition(Zombie_X + 15, Survivant_Y + 15)
+        zombie1.setPosition(Survivant_X + 15, Survivant_Y + 15)
     }
 })
 game.onUpdateInterval(500, function () {
